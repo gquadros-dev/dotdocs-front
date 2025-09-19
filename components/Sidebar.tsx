@@ -1,69 +1,61 @@
-'use client'; 
+import styles from './Sidebar.module.css';
+import { TopicAccordion } from './TopicAccordion';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
-interface SidebarItem {
+interface Topic {
   id: string;
-  label: string;
+  name: string;
+  type: string;
+  parentId: string | null;
+  order: number;
+  level: number;
+  children?: Topic[]; 
 }
 
-interface SidebarCategory {
-  label: string;
-  items: SidebarItem[];
+async function getTopicTree(type: string): Promise<Topic[]> {
+  try {
+    const response = await fetch(`http://localhost:8080/api/topics/tree/${type}`, {
+      cache: 'no-store' // Use isso durante o desenvolvimento para não usar cache
+    });
+    
+    if (!response.ok) {
+      throw new Error('Falha ao buscar os tópicos');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
-const mockSidebarData: SidebarCategory[] = [
-  {
-    label: 'Primeiros Passos',
-    items: [
-      { id: 'instalacao', label: 'Instalação' },
-      { id: 'configuracao', label: 'Configuração Inicial' },
-    ],
-  },
-  {
-    label: 'Conceitos Avançados',
-    items: [
-      { id: 'roteamento', label: 'Roteamento Dinâmico' },
-      { id: 'dados', label: 'Busca de Dados' },
-      { id: 'autenticacao', label: 'Autenticação' },
-    ],
-  },
-];
+export async function Sidebar() {
+  const publicTopicTree = await getTopicTree('public');
+  const privateTopicTree = await getTopicTree('private');
 
-export function Sidebar() {
-  const pathname = usePathname();
   return (
-    <aside style={{ borderRight: '1px solid #eee', padding: '20px', width: '250px' }}>
+    <aside className={styles.sidebarContainer}>
       <nav>
-        {mockSidebarData.map((category) => (
-          <div key={category.label} style={{ marginBottom: '15px' }}>
-            <h3 style={{ margin: '0 0 10px 0', textTransform: 'uppercase', fontSize: '14px', color: '#555' }}>
-              {category.label}
-            </h3>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-              {category.items.map((item) => {
-                const href = `/guia/${item.id}`;
-                const isActive = pathname === href;
+        {publicTopicTree.length > 0 && (
+          <>
+            <h2 className={styles.sectionTitle}>Público</h2>
+            {publicTopicTree.map((rootTopic) => (
+              <TopicAccordion key={rootTopic.id} topic={rootTopic} />
+            ))}
+          </>
+        )}
 
-                return (
-                  <li key={item.id} style={{ marginBottom: '8px' }}>
-                    <Link
-                      href={href}
-                      style={{
-                        color: isActive ? 'gray' : '#fff',
-                        fontWeight: isActive ? 'bold' : 'normal',
-                        textDecoration: 'none'
-                      }}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
+        {privateTopicTree.length > 0 && (
+          <>
+            <h2 className={styles.sectionTitle}>Privado</h2>
+            {privateTopicTree.map((rootTopic) => (
+              <TopicAccordion key={rootTopic.id} topic={rootTopic} />
+            ))}
+          </>
+        )}
+
+        {publicTopicTree.length === 0 && privateTopicTree.length === 0 && (
+          <p>Nenhum tópico disponível.</p>
+        )}
       </nav>
     </aside>
   );

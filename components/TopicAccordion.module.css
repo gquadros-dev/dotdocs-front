@@ -1,0 +1,59 @@
+.accordionItem {
+  margin: 5px 0;
+}
+
+.accordionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.accordionHeaderExpandable:hover {
+  background-color: #2a2a2a;
+}
+
+.accordionContent {
+  padding-left: 15px;
+  border-left: 1px solid #444;
+  margin-left: 10px;
+}
+
+.arrow {
+  font-size: 0.7em;
+  transition: transform 0.2s ease-in-out;
+}
+
+.arrowDown {
+  transform: rotate(90deg);
+}
+
+.articleList {
+  list-style: none;
+  padding: 5px 0 10px 0;
+  margin: 0;
+}
+
+.link, .activeLink {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #ccc;
+  font-size: 0.95rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.link:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.activeLink {
+  background-color: #0070f3;
+  color: #fff;
+  font-weight: 500;
+}

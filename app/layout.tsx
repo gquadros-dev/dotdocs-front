@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import styles from './Layout.module.css';
 import { Sidebar } from "@/components/Sidebar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "DotDocs",
+  description: "Sua base de conhecimento",
 };
 
 export default function RootLayout({
@@ -25,14 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className={styles.container}>
-          <Sidebar /> 
-          <main className={styles.mainContent}>
-            {children} 
-          </main>
+      <body className={inter.className}>
+        <div className="main-layout">
+          <Sidebar />
+          <main className="content-area">{children}</main>
         </div>
       </body>
     </html>
