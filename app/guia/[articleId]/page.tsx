@@ -1,16 +1,10 @@
+import { ArticleDisplay } from '@/components/ArticleDisplay';
+import { Article } from '@/types';
 import { Metadata } from 'next';
-
-interface Article {
-  id: string;
-  title: string;
-  content: string;
-  topicId: string;
-  createdAt: string;
-}
 
 async function getArticle(id: string): Promise<Article | null> {
   try {
-    const response = await fetch(`http://localhost:8080/api/articles/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/articles/${id}`, {
       cache: 'no-store', 
     });
     if (!response.ok) return null;
@@ -21,7 +15,8 @@ async function getArticle(id: string): Promise<Article | null> {
   }
 }
 
-export async function generateMetadata({ params }: { params: { articleId: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ articleId: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const article = await getArticle(params.articleId);
 
   if (!article) {
@@ -35,8 +30,8 @@ export async function generateMetadata({ params }: { params: { articleId: string
   };
 }
 
-export default async function ArticlePage({ params }: { params: { articleId: string } }) {
-  const { articleId } = params;
+export default async function ArticlePage(props: { params: Promise<{ articleId: string }> }) {
+  const { articleId } = await props.params;
   const article = await getArticle(articleId);
 
   if (!article) {
@@ -49,11 +44,6 @@ export default async function ArticlePage({ params }: { params: { articleId: str
   }
 
   return (
-    <article>
-      <h1>{article.title}</h1>
-      <div
-        dangerouslySetInnerHTML={{ __html: article.content }}
-      />
-    </article>
+    <ArticleDisplay initialArticle={article}></ArticleDisplay>
   );
 }

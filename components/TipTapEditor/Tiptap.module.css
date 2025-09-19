@@ -1,0 +1,75 @@
+.editorContainer {
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.menuBar {
+  padding: 8px;
+  border-bottom: 1px solid #444;
+  background-color: #2a2a2a;
+}
+
+.menuBar button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.menuBar button:hover {
+  background-color: #333;
+}
+
+.menuBar button.isActive {
+  background-color: #0070f3;
+}
+
+.editorContent {
+  padding: 15px;
+  min-height: 200px;
+  color: #111;
+  background-color: #fff;
+}
+
+.editorContent h1, .editorContent h2, .editorContent p {
+  margin: 1em 0;
+}
+
+.buttonGroup {
+  display: inline-flex;
+  margin-right: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.menuBar button {
+  background: none;
+  border: none;
+  border-right: 1px solid #444; 
+  color: #fff;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.buttonGroup button:last-child {
+  border-right: none;
+}
+
+.editorContent ul {
+  list-style-type: disc;
+  padding-left: 2rem;
+}
+
+.editorContent ol {
+  list-style-type: decimal;
+  padding-left: 2rem;
+}
+
+.editorContent blockquote {
+  border-left: 3px solid #555;
+  padding-left: 1rem;
+  margin-left: 0;
+  font-style: italic;
+}

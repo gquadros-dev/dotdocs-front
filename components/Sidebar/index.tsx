@@ -1,5 +1,5 @@
+import { TopicAccordion } from '../Topic/TopicAccordion';
 import styles from './Sidebar.module.css';
-import { TopicAccordion } from './TopicAccordion';
 
 interface Topic {
   id: string;
@@ -13,7 +13,7 @@ interface Topic {
 
 async function getTopicTree(type: string): Promise<Topic[]> {
   try {
-    const response = await fetch(`http://localhost:8080/api/topics/tree/${type}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/topics/tree/${type}`, {
       cache: 'no-store' // Use isso durante o desenvolvimento para não usar cache
     });
     
