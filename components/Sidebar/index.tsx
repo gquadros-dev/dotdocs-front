@@ -13,9 +13,7 @@ interface Topic {
 
 async function getTopicTree(type: string): Promise<Topic[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/topics/tree/${type}`, {
-      cache: 'no-store' // Use isso durante o desenvolvimento para não usar cache
-    });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/topics/tree/${type}`});
     
     if (!response.ok) {
       throw new Error('Falha ao buscar os tópicos');
